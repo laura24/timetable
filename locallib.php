@@ -17,37 +17,37 @@ function timetable_insert_fields($timetable) {
     // set. Because of this the condition is kinda far-fetched.
     if (!isset($timetable->sess_dis_0)) { // is enabled
         $tt_data = new object();   // basic data
-        $tt_data->day       = $TIMETABLE_DAYS[$timetable->sess_day_0];
+        $tt_data->day       = $timetable->sess_day_0;
         $tt_data->hour      = $timetable->sess_hour_0 + $TIMETABLE_MODIFIER;
         $tt_data->duration  = $timetable->sess_len_0;
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $TIMETABLE_COLORS[$timetable->sess_col_0];
+        $tt_data->color     = $timetable->sess_col_0;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
     if (!isset($timetable->sess_dis_1)) { // is enabled
         $tt_data = new object();   // basic data
-        $tt_data->day       = $TIMETABLE_DAYS[$timetable->sess_day_1];
+        $tt_data->day       = $timetable->sess_day_1;
         $tt_data->hour      = $timetable->sess_hour_1 + $TIMETABLE_MODIFIER;
         $tt_data->duration  = $timetable->sess_len_1;
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $TIMETABLE_COLORS[$timetable->sess_col_1];
+        $tt_data->color     = $timetable->sess_col_1;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
     if (!isset($timetable->sess_dis_2)) { // is enabled
         $tt_data = new object();   // basic data
-        $tt_data->day       = $TIMETABLE_DAYS[$timetable->sess_day_2];
+        $tt_data->day       = $timetable->sess_day_2;
         $tt_data->hour      = $timetable->sess_hour_2 + $TIMETABLE_MODIFIER;
         $tt_data->duration  = $timetable->sess_len_2;
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $TIMETABLE_COLORS[$timetable->sess_col_2];
+        $tt_data->color     = $timetable->sess_col_2;
         $DB->insert_record('timetable_base', $tt_data);
     }
 }
@@ -94,8 +94,8 @@ function timetable_get_details($rec) {
     
          
             
-	$rusers = get_role_users(3, $context,
-							 true, '', 'r.sortorder ASC, u.lastname ASC', true);
+	$rusers = get_role_users(3, $context, true, '', 'r.sortorder ASC, u.lastname ASC', true);
+	
 	if (is_array($rusers) && count($rusers)) {
 		// print the teachers
 

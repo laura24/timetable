@@ -45,7 +45,7 @@ $table->attributes["style"] = 'margin:auto;';
 $i = 0;
 foreach ($timetable_data as $value)  {
     ++$i;
-	$data=array($i,$value->timetable,$value->classroom,$value->day,$value->hour,$value->hour_end,$value->duration,$value->color);
+	$data=array($i,$value->timetable,$value->classroom,$TIMETABLE_DAYS[$value->day],$value->hour,$value->hour_end,$value->duration,$TIMETABLE_COLORS[$value->color]);
  //  print '<tr>';
  //   print "<td> $i </td>";
  //   print '<td>'.$value->timetable.'</td>';
