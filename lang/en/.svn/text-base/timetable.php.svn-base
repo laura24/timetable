@@ -1,0 +1,37 @@
+<?php 
+
+$string['modulename'] = 'Timetable';
+$string['modulenameplural'] = 'Timetables';
+$string['monday'] = 'Monday';
+$string['tuesday'] = 'Tuesday';
+$string['wednesday'] = 'Wednesday';
+$string['thursday'] = 'Thursday';
+$string['friday'] = 'Friday';
+$string['saturday'] = 'Saturday';
+$string['sunday'] = 'Sunday';
+$string['timetablehdr'] = 'Timetable Setup';
+$string['timetablehelp'] = 'Timetable Help';
+$string['classroom'] = 'Classroom';
+$string['session'] = 'Session';
+$string['disable'] = 'Disable';
+$string['missingclassroom'] = 'No classroom specified.';
+
+$string['timetable'] = 'Orarul academiei (iulie 2010):';
+
+
+$string['green']  = 'Green (CCNA1 default)';
+$string['yellow'] = 'Yellow (CCNA2 default)';
+$string['orange'] = 'Orange (CCNA3 default)';
+$string['red']    = 'Red (CCNA4 default)';
+$string['purple'] = 'Purple';
+$string['black']  = 'Black';
+
+$string['notimetable'] = 'There is no timetable to display';
+
+/// Errors ///////////////////////////////////////////////////////////////
+
+$string['instanceerror'] = 'Error: Only one instance allowed per course.';
+$string['noentriesactive'] = 'Error. None of the records enabled, uncheck at least one disable.';
+$string['nodata'] = 'No classes have been added in the timetable';
+
+?>

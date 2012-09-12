@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/21/Moodle2010/trunk/moodle/mod/timetable/db
+END
+install.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/21/Moodle2010/trunk/moodle/mod/timetable/db/install.xml
+END
+access.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/21/Moodle2010/trunk/moodle/mod/timetable/db/access.php
+END
+upgrade.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/21/Moodle2010/trunk/moodle/mod/timetable/db/upgrade.php
+END
