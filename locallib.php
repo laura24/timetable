@@ -73,10 +73,14 @@ function timetable_get_details($rec) {
     global $CFG,$DB;
 	
     // get the course number to extract relevant data
+	
     $module_id = $rec->timetable;
+	
     $course_id = $DB->get_record('timetable', array('id'=>$module_id))->course;
     $course    = $DB->get_record('course', array('id'=>$course_id));
-
+	echo "HELLO";
+	echo $module_id;
+	
     if (isset($course->context)) {
         $context = $course->context;
     } else {
@@ -112,6 +116,8 @@ function timetable_get_details($rec) {
 
     return $data;
 }
+
+
 
 function timetable_format_details($rec) {
     global $CFG;
@@ -233,7 +239,10 @@ function timetable_display() {
         $contents .= '</tr>'; // header done
 
         $index = 0;
+		//-------------------------------------------------------------------------------------------
+		
         foreach ($TIMETABLE_DAYS as $k => $d) {
+			print "W";
             if ($index % 2 == 0) {
                 $rowstyle = $css->even;
             } else {

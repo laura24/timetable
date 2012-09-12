@@ -41,14 +41,14 @@ function timetable_update_instance($timetable) {
     /**
      * Updates an already existent module instance
      * @param timetable an object created by the module creation form
-     * @return          id of the containing course
+     * @return id of the containing course
      */
     // delete the old instance and then just add a new instance
     $course_id = $timetable->course;
-    $module_id = $DB->get_record('timetable', 'course', $course_id)->id;
+    $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
-    delete_records('timetable_base', 'timetable', $module_id);
-    $timetable->id = $module_id;
+    delete_records('timetable_base', array('timetable'=>$module_id));
+    $timetable->id = $module_id->id;
     timetable_insert_fields($timetable);
 
     // don't wait for cron

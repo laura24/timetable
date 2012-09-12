@@ -60,8 +60,8 @@ class mod_timetable_mod_form extends moodleform_mod {
         }
 
         if (!empty($this->_instance)) {
-            $module_id = $DB->get_record('timetable', 'course',$COURSE->id)->id;
-            $data = $DB->get_records('timetable_base', 'timetable', $module_id);
+            $module_id = $DB->get_record('timetable', array( 'course'=>$COURSE->id))->id;
+            $data = $DB->get_records('timetable_base', array( 'timetable'=>$module_id));
             if (is_array($data) && count($data)) {
                 $x = 0;
                 foreach ($data as $entry) {
