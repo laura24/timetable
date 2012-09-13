@@ -49,7 +49,7 @@ class mod_timetable_mod_form extends moodleform_mod {
     function data_preprocessing(&$default_values) {
         /* If the timetable for this course has already been set,
          * load the entries into the form */
-        global $COURSE, $MODIFIER,$DB;
+        global $COURSE, $TIMETABLE_MODIFIER,$DB;
         // set the standard defaults here, before first attempting to
         // change them
 
@@ -57,7 +57,7 @@ class mod_timetable_mod_form extends moodleform_mod {
         
         for ($x = 0; $x < 3; ++$x) {
             $default_values["sess_len_$x"]   =  4;
-            $default_values["sess_hour_$x"] =  0;
+           $default_values["sess_hour_$x"] =  0;
             $default_values["sess_dis_$x"]   =  1;
             $default_values["sess_col_$x"]   =  0;
         }
@@ -70,8 +70,8 @@ class mod_timetable_mod_form extends moodleform_mod {
                 foreach ($data as $entry) {
                     $default_values["classroom"]     = $entry->classroom;
                     $default_values["sess_len_$x"]   = $entry->duration;
-                    $default_values["sess_hour_$x"] = $entry->hour - $MODIFIER;
-                    $default_values["sess_col_$x"]   = $entry->color;
+                    $default_values["sess_hour_$x"] = $entry->hour - $TIMETABLE_MODIFIER;
+                    $default_values["color"]   = $entry->color;
                     $default_values["sess_day_$x"]   = $entry->day;
                     $default_values["sess_dis_$x"]   = 0;
                     ++$x;

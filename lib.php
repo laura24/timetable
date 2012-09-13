@@ -49,17 +49,13 @@ function timetable_update_instance($timetable) {
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
-   // HEAD
-    $DB->delete_records('timetable_base', array('timetable'=>$module_id));
-    $timetable->id = $module_id;
-
 	
     $DB->delete_records('timetable_base', array('timetable'=>$module_id ));
 	
     $timetable->id = $module_id/*->id*/;
-	echo "BUNA";
+	
 	$var =  $timetable->id;
-	echo  $var;
+	
 
     timetable_insert_fields($timetable);
 
