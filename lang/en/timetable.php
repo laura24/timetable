@@ -64,7 +64,7 @@ $string['optsprezece']='18:00';
 $string['nouasprezece']='19:00';
 $string['douazeci']='20:00';
 $string['douazeci_si_unu']='21:00';
-
+$string['color']='Choose color';
 
 
 

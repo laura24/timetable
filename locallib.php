@@ -23,7 +23,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $timetable->sess_col_0;
+        $tt_data->color     = $timetable->color;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
@@ -35,7 +35,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $timetable->sess_col_1;
+        $tt_data->color     = $timetable->color;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
@@ -47,7 +47,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->hour_end  = $tt_data->duration + $tt_data->hour;
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
-        $tt_data->color     = $timetable->sess_col_2;
+        $tt_data->color     = $timetable->color;
         $DB->insert_record('timetable_base', $tt_data);
     }
 }
@@ -77,8 +77,6 @@ function timetable_get_details($rec) {
     $module_id = $rec->timetable;
 	
     $record = $DB->get_record('timetable', array('id'=>$module_id));
-	echo "SSSSSSSSSSSSSSS";
-	print_r($record);
 	$course_id = $record->course;
     $course    = $DB->get_record('course', array('id'=>$course_id));
 	

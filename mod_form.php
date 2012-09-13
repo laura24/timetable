@@ -14,7 +14,9 @@ class mod_timetable_mod_form extends moodleform_mod {
         $mform->addElement('text', 'classroom', get_string('classroom','timetable'),'maxlength="16" size="16"');
         $mform->addRule('classroom', get_string('missingclassroom','timetable'),'required', null, 'client');
         $mform->setType('classroom', PARAM_MULTILANG);
-        
+		
+        $mform->addElement('select', 'color', get_string('color','timetable'), $TIMETABLE_COLORS);
+		
         $lengths = array(1=>'1', 2=>'2', 3=>'3', 4=>'4', 5=>'5', 6=>'6', 7=>'7', 8=>'8');
         $sessions = array(array(), array(), array());
         $hours = array("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00",
@@ -23,7 +25,7 @@ class mod_timetable_mod_form extends moodleform_mod {
             $sessions[$x][] = & $mform->createElement('select',"sess_day_$x", '', $TIMETABLE_DAYS);
             $sessions[$x][] = & $mform->createElement('select',"sess_hour_$x", '', $hours);
             $sessions[$x][] = & $mform->createElement('select',"sess_len_$x", '', $lengths);
-            $sessions[$x][] = & $mform->createElement('select', "sess_col_$x", '', $TIMETABLE_COLORS);
+            
 		
             $sessions[$x][] = & $mform->createElement('checkbox', "sess_dis_$x", null, get_string('disable','timetable'));
             $mform->addGroup($sessions[$x], "sess_$x", get_string('session','timetable'), ' ', false);

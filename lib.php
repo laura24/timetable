@@ -38,6 +38,7 @@ function timetable_add_instance($timetable) {
 
 
 function timetable_update_instance($timetable) {
+	global $DB;
     /**
      * Updates an already existent module instance
      * @param timetable an object created by the module creation form
@@ -48,8 +49,18 @@ function timetable_update_instance($timetable) {
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
+   // HEAD
     $DB->delete_records('timetable_base', array('timetable'=>$module_id));
     $timetable->id = $module_id;
+
+	
+    $DB->delete_records('timetable_base', array('timetable'=>$module_id ));
+	
+    $timetable->id = $module_id/*->id*/;
+	echo "BUNA";
+	$var =  $timetable->id;
+	echo  $var;
+
     timetable_insert_fields($timetable);
 
     // don't wait for cron
@@ -57,6 +68,7 @@ function timetable_update_instance($timetable) {
     
     // force the cast because PHP thinks the function is returning
     // a string
+	
     return (integer)$course_id;
 }
 
@@ -71,7 +83,15 @@ function timetable_delete_instance($id) {
     $DB->delete_records('timetable_base', array('timetable'=>$id));
     $DB->delete_records('timetable', array('id'=>$id));
 
+
   //  timetable_cron();
+
+	 global $DB;
+    $DB->delete_records('timetable_base', array('timetable'=>$id));
+    $DB->delete_records('timetable', array('id'=>$id));
+
+ //   timetable_cron();
+
     
     return true;
 }
