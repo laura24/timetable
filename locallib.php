@@ -52,7 +52,7 @@ function timetable_insert_fields($timetable) {
     }
 }
 
-function timetable_find($room, $hour) {
+function timetable_find($room, $hour, $day) {
 	global $DB;
 	
     /**
@@ -62,8 +62,8 @@ function timetable_find($room, $hour) {
      * @param day   course day (as a number, where 0 is Monday)
      * @return      record object if it exists, false otherwise
      */
-    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room))) {
-        return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room));
+    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day))) {
+        return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day));
     } else {
         return false;
     }
@@ -78,8 +78,6 @@ function timetable_get_details($rec) {
 	
     $course_id = $DB->get_record('timetable', array('id'=>$module_id))->course;
     $course    = $DB->get_record('course', array('id'=>$course_id));
-	echo "HELLO";
-	echo $module_id;
 	
     if (isset($course->context)) {
         $context = $course->context;
@@ -242,7 +240,6 @@ function timetable_display() {
 		//-------------------------------------------------------------------------------------------
 		
         foreach ($TIMETABLE_DAYS as $k => $d) {
-			print "W";
             if ($index % 2 == 0) {
                 $rowstyle = $css->even;
             } else {

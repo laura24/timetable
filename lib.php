@@ -67,8 +67,8 @@ function timetable_delete_instance($id) {
      * @return    true if no errors occurred, false otherwise
      */
 
-    delete_records('timetable_base', 'timetable', $id);
-    delete_records('timetable', 'id', $id);
+    delete_records('timetable_base', array('timetable'=>$id));
+    delete_records('timetable', array('id'=>$id));
 
     timetable_cron();
     
