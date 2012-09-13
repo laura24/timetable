@@ -17,7 +17,6 @@ function timetable_add_instance($timetable) {
      * @param  timetable an object constructed by the module creation form
      * @return           the id of the new record
      */
-	 print_r($timetable);
     global $TIMETABLE_MODIFIER,$DB;
 
     $tt = new object();   // default entry
@@ -44,11 +43,12 @@ function timetable_update_instance($timetable) {
      * @return id of the containing course
      */
     // delete the old instance and then just add a new instance
-    $course_id = $timetable->course;
+    global $DB;
+	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
-    delete_records('timetable_base', array('timetable'=>$module_id));
-    $timetable->id = $module_id->id;
+    $DB->delete_records('timetable_base', array('timetable'=>$module_id));
+    $timetable->id = $module_id;
     timetable_insert_fields($timetable);
 
     // don't wait for cron
@@ -66,9 +66,9 @@ function timetable_delete_instance($id) {
      * @param  id the id of the module to be deleted
      * @return    true if no errors occurred, false otherwise
      */
-
-    delete_records('timetable_base', array('timetable'=>$id));
-    delete_records('timetable', array('id'=>$id));
+	global $DB;
+    $DB->delete_records('timetable_base', array('timetable'=>$id));
+    $DB->delete_records('timetable', array('id'=>$id));
 
     timetable_cron();
     

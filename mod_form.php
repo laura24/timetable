@@ -69,7 +69,7 @@ class mod_timetable_mod_form extends moodleform_mod {
                     $default_values["sess_len_$x"]   = $entry->duration;
                     $default_values["sess_hour_$x"] = $entry->hour - $MODIFIER;
                     $default_values["sess_col_$x"]   = $entry->color;
-                    $default_values["sess_day_$x"]   = $entry->days;
+                    $default_values["sess_day_$x"]   = $entry->day;
                     $default_values["sess_dis_$x"]   = 0;
                     ++$x;
                 }

@@ -62,7 +62,7 @@ function timetable_find($room, $hour, $day) {
      * @param day   course day (as a number, where 0 is Monday)
      * @return      record object if it exists, false otherwise
      */
-    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day)) {
+    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day))) {
         return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day));
     } else {
         return false;
