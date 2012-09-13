@@ -1,7 +1,7 @@
 <?php
     // do nothing, just a placeholder
 
-$mod_timetable_capabilities = array(
+$capabilities = array(
     'mod/timetable:view' => array(
         
         'captype' => 'read',

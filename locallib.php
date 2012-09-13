@@ -76,7 +76,10 @@ function timetable_get_details($rec) {
 	
     $module_id = $rec->timetable;
 	
-    $course_id = $DB->get_record('timetable', array('id'=>$module_id))->course;
+    $record = $DB->get_record('timetable', array('id'=>$module_id));
+	echo "SSSSSSSSSSSSSSS";
+	print_r($record);
+	$course_id = $record->course;
     $course    = $DB->get_record('course', array('id'=>$course_id));
 	
     if (isset($course->context)) {

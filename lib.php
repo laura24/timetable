@@ -23,11 +23,12 @@ function timetable_add_instance($timetable) {
 
     $tt->name = get_string('modulename', 'timetable');
     $tt->course = $timetable->course;
+	$tt->timecreated = time();
     $timetable->id = $DB->insert_record("timetable", $tt);
 
     timetable_insert_fields($timetable);
     
-    timetable_cron();
+  //  timetable_cron();
 
     return $timetable->id; // return id
 }
@@ -52,7 +53,7 @@ function timetable_update_instance($timetable) {
     timetable_insert_fields($timetable);
 
     // don't wait for cron
-    timetable_cron();
+  //  timetable_cron();
     
     // force the cast because PHP thinks the function is returning
     // a string
@@ -70,7 +71,7 @@ function timetable_delete_instance($id) {
     $DB->delete_records('timetable_base', array('timetable'=>$id));
     $DB->delete_records('timetable', array('id'=>$id));
 
-    timetable_cron();
+  //  timetable_cron();
     
     return true;
 }

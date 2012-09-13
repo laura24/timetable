@@ -10,9 +10,9 @@ require_once("lib.php");
 $id = required_param('id', PARAM_INT);
 
 if ($id) {
-    $cm = get_coursemodule_from_id('timetable', $id, 0, false, MUST_EXIST);
+    $cm         = get_coursemodule_from_id('timetable', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $annotation  = $DB->get_record('timetable', array('id' => $cm->instance), '*', MUST_EXIST);
+    $timetable  = $DB->get_record('timetable', array('id' => $cm->instance), '*', MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }

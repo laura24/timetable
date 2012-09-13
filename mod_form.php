@@ -34,8 +34,9 @@ class mod_timetable_mod_form extends moodleform_mod {
         $features->groups = false;
         $features->groupings = false;
         $features->groupmembersonly = false;
+		
         $this->standard_coursemodule_elements($features);
-
+		$this->add_intro_editor();
         $this->add_action_buttons(); 
     }
 
