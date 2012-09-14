@@ -81,11 +81,6 @@ function timetable_delete_instance($id) {
 
 
   //  timetable_cron();
-
-	 global $DB;
-    $DB->delete_records('timetable_base', array('timetable'=>$id));
-    $DB->delete_records('timetable', array('id'=>$id));
-
  //   timetable_cron();
 
     

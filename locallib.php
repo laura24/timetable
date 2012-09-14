@@ -287,8 +287,57 @@ function timetable_display() {
         $contents .= "</table>";
         return $contents;
     }else{
-        print_heading(get_string('nodata','timetable'));
-        return '';
+		$css   = timetable_get_css();
+        $format= timetable_get_format();
+		$contents .= "<table class='$css->timetable' cellspacing='$format->cellspacing'";
+        $contents .= "<tr>";
+
+        // top left dummy spaces
+    //    $contents .= "<td class='$css->void $css->bottom'> </td>";
+        $contents .= "<td class='$css->void $css->bottom $css->right'> </td>";
+
+        for ($hour = $format->first_hour; $hour<=$format->last_hour; ++$hour){
+            if ($hour == $format->last_hour) {
+                $contents .= "<td class='$css->fixed $css->top $css->right $css->head'>$hour:00</td>";
+            } else {
+                $contents .= "<td class='$css->fixed $css->head $css->top'>$hour:00</td>";
+            }
+        }
+
+        $contents .= '</tr>'; // header done
+
+        $index = 0;
+		foreach ($TIMETABLE_DAYS as $k => $d) {
+		if ($index % 2 == 0) {
+			$rowstyle = $css->even;
+		} else {
+			$rowstyle = $css->odd;
+		}
+
+		$contents .= "<tr class='$rowstyle'>";
+			
+		if ($d == end($TIMETABLE_DAYS)) {
+						$contents .= "<td  class='$css->left $css->right $css->bottom'> $d </td>";
+						$rstyle = "$css->bottom";
+					} else {
+						$contents .= "<td  class='$css->left $css->right'>$d </td>";
+						$rstyle = '';
+					}
+					
+					for ($hour = $format->first_hour; $hour <= $format->last_hour; ++$hour) {
+						if ($hour == $format->last_hour) {
+                            $rborder = $css->right;
+                        } else {
+                            $rborder = '';
+                        }
+                        $contents .= "<td class='$rborder $rstyle'>&nbsp; </td>";
+					}
+					$contents .= "</tr>";
+					$index++;
+		}
+		
+		$contents .= "</table>";
+        return $contents;
     }	
 }
 

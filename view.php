@@ -1,7 +1,7 @@
 <?php
 
 global $TIMETABLE_TABLE_HEADER;
-global $TIMETABLE_TABLE_FOOTER;
+global $TIMETABLE_TABLE_FOOTER,$TIMETABLE_COLORS;
 global $MODIFIER,$DB,$OUTPUT;
 
 require_once("../../config.php");
