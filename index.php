@@ -6,14 +6,19 @@ global $MODIFIER,$DB,$OUTPUT;
   require_once('../../config.php');
   require_once('lib.php');
   
-  $ok = 1;
-  if($ok) 
-  {
-	$rec = $DB->get_records('timetable');
-	foreach ($rec as $r) 
+	$current_year = date('Y', time()+3600*356*24 ); 
+	echo $current_year;
+	define("TIME_TO_DELETE", $current_year."-02-15");
+	$aux = strtotime(TIME_TO_DELETE );
+	
+	if( time()> $aux ) 
 	{
-		timetable_delete_instance($r->id);
+		$rec = $DB->get_records('timetable');
+		foreach ($rec as $r) 
+		{
+			timetable_delete_instance($r->id);
+		}
+		
 	}
-  }
-  echo timetable_display();
+	 echo timetable_display();
   
