@@ -24,6 +24,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
+		$tt_data->active   = $timetable->active;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
@@ -36,6 +37,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
+		$tt_data->active   = $timetable->active;
         $DB->insert_record('timetable_base', $tt_data);
     }
 
@@ -48,6 +50,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->classroom = $timetable->classroom;
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
+		$tt_data->active   = $timetable->active;
         $DB->insert_record('timetable_base', $tt_data);
     }
 }
@@ -264,10 +267,19 @@ function timetable_display() {
 				
                 for ($hour = $format->first_hour; $hour <= $format->last_hour; ++$hour) {
                     if ($rec = timetable_find($r, $hour, $k)) {
+						if(!$rec->active){
                         $contents .= "<td colspan='$rec->duration' class='$css->box $css->session ".$TIMETABLE_COLORS_PURE[$rec->color]."'>";
                         $contents .= timetable_format_details($rec);
                         $contents .= '</td>';
                         $hour += $rec->duration - 1;
+						}else {
+                        if ($hour == $format->last_hour) {
+                            $rborder = $css->right;
+                        } else {
+                            $rborder = '';
+                        }
+                        $contents .= "<td class='$rborder $browstyle'>&nbsp; </td>";
+						}         
                     } else {
                         if ($hour == $format->last_hour) {
                             $rborder = $css->right;

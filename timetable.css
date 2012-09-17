@@ -76,27 +76,27 @@ table.time td.head {
 }
 
 table.time td.green {
-    background-color: #9F9;
+    background-color: #4CC417;
 }
 
 table.time td.yellow {
-    background-color: #FF9;
+    background-color: #FFFF91;
 }
 
 table.time td.orange {
-    background-color: #FC6;
+    background-color: #FBB117;
 }
 
 table.time td.red {
-    background-color: #F66;
+    background-color: #FF4D4D;
 }
 
 table.time td.purple {
-    background-color: #FCF;
+    background-color: #C49DD1;
 }
 
-table.time td.black {
-    background-color: #CCC;
+table.time td.gray {
+    background-color: #A1A19D;
 }
 
 table.time td.void {

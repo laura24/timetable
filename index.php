@@ -5,6 +5,7 @@ global $MODIFIER,$DB,$OUTPUT;
 
   require_once('../../config.php');
   require_once('lib.php');
+<<<<<<< HEAD
   
 	$current_year = date('Y', time()+3600*356*24 ); 
 	echo $current_year;
@@ -21,4 +22,12 @@ global $MODIFIER,$DB,$OUTPUT;
 		
 	}
 	 echo timetable_display();
+=======
+  $rec = $DB->get_records('timetable');
+  foreach($rec as $r) 
+  {
+	$aux = $r->timecreated + 360*24*250;
+  }
+  echo timetable_display();
+>>>>>>> 463c76c207cc88c95ce8a9c890ad84e7369679c6
   
