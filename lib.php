@@ -45,7 +45,6 @@ function timetable_update_instance($timetable) {
      * @return id of the containing course
      */
     // delete the old instance and then just add a new instance
-    global $DB;
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
@@ -68,6 +67,15 @@ function timetable_update_instance($timetable) {
     return (integer)$course_id;
 }
 
+function timetable_update_active ($record) {
+	global $DB;
+	$record->active = 1;
+	$record_id = $record->id;
+	$DB->delete_records('timetable_base', array('id'=>$record_id));
+	$DB->insert_record('timetable_base',$record);
+	
+	return (integer)$record_id;
+}
 
 function timetable_delete_instance($id) {
     /**
@@ -123,13 +131,7 @@ function timetable_cron() {
      * Updates the cached HTML timetable
      * @return  nothing
      */
-    global $TIMETABLE_HTML_FILE;
-    $filehandler = fopen($TIMETABLE_HTML_FILE, 'w');
-    
-    fwrite($filehandler, timetable_display());
-    
-    fclose($filehandler);
-    
+	
 }
 
 
