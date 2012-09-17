@@ -5,15 +5,10 @@ global $MODIFIER,$DB,$OUTPUT;
 
   require_once('../../config.php');
   require_once('lib.php');
-  
-  $ok = 1;
-  if($ok) 
+  $rec = $DB->get_records('timetable');
+  foreach($rec as $r) 
   {
-	$rec = $DB->get_records('timetable');
-	foreach ($rec as $r) 
-	{
-		timetable_delete_instance($r->id);
-	}
+	$aux = $r->timecreated + 360*24*250;
   }
   echo timetable_display();
   

@@ -3,6 +3,7 @@
 global $TIMETABLE_TABLE_HEADER;
 global $TIMETABLE_TABLE_FOOTER,$TIMETABLE_COLORS;
 global $MODIFIER,$DB,$OUTPUT;
+global $TIMETABLE_STATUS;
 
 require_once("../../config.php");
 require_once("lib.php");
@@ -39,13 +40,13 @@ if ($timetable_data==NULL) {
 
 $table = new html_table();
 
-$table->head=array('Nr. crt','Module ID','Classroom','Days','Start hour','End hour','Duration','Color');
+$table->head=array('Nr. crt','Module ID','Classroom','Days','Start hour','End hour','Duration','Color','Status');
 $table->attributes["style"] = 'margin:auto;';
 
 $i = 0;
 foreach ($timetable_data as $value)  {
     ++$i;
-	$data=array($i,$value->timetable,$value->classroom,$TIMETABLE_DAYS[$value->day],$value->hour,$value->hour_end,$value->duration,$TIMETABLE_COLORS[$value->color]);
+	$data=array($i,$value->timetable,$value->classroom,$TIMETABLE_DAYS[$value->day],$value->hour,$value->hour_end,$value->duration,$TIMETABLE_COLORS[$value->color],$TIMETABLE_STATUS[$value->active]);
  //  print '<tr>';
  //   print "<td> $i </td>";
  //   print '<td>'.$value->timetable.'</td>';

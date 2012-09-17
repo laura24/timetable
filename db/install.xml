@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/timetable/db" VERSION="20120912" COMMENT="XMLDB file for Moodle mod/timetable"
+<XMLDB PATH="mod/timetable/db" VERSION="20120914" COMMENT="XMLDB file for Moodle mod/timetable"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-   <TABLE NAME="timetable" COMMENT="Default comment for timetable, please edit me" NEXT="timetable_base">
+    <TABLE NAME="timetable" COMMENT="Default comment for timetable, please edit me" NEXT="timetable_base">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="course"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course timetable activity belongs to" PREVIOUS="id" NEXT="name"/>
@@ -30,7 +30,8 @@
         <FIELD NAME="hour_end" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false" PREVIOUS="duration" NEXT="classroom"/>
         <FIELD NAME="classroom" TYPE="char" LENGTH="16" NOTNULL="true" SEQUENCE="false" PREVIOUS="hour_end" NEXT="day"/>
         <FIELD NAME="day" TYPE="int" LENGTH="3" NOTNULL="true" SEQUENCE="false" PREVIOUS="classroom" NEXT="color"/>
-        <FIELD NAME="color" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" PREVIOUS="day"/>
+        <FIELD NAME="color" TYPE="int" LENGTH="3" NOTNULL="false" SEQUENCE="false" PREVIOUS="day" NEXT="active"/>
+        <FIELD NAME="active" TYPE="int" LENGTH="1" NOTNULL="false" SEQUENCE="false" PREVIOUS="color"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

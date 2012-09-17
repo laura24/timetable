@@ -31,13 +31,14 @@ class mod_timetable_mod_form extends moodleform_mod {
             $mform->addGroup($sessions[$x], "sess_$x", get_string('session','timetable'), ' ', false);
             $mform->disabledIf("sess_$x", "sess_dis_$x", 'checked');
         }
+		$mform->addElement('select', 'active', get_string('active','timetable'), array('Active','Inactive'));
         //---------------------------
         $features = new stdClass;
         $features->groups = false;
         $features->groupings = false;
         $features->groupmembersonly = false;
 		
-        $this->standard_coursemodule_elements($features);
+       $this->standard_coursemodule_elements($features);
 		$this->add_intro_editor();
         $this->add_action_buttons(); 
     }
@@ -74,6 +75,7 @@ class mod_timetable_mod_form extends moodleform_mod {
                     $default_values["color"]   = $entry->color;
                     $default_values["sess_day_$x"]   = $entry->day;
                     $default_values["sess_dis_$x"]   = 0;
+					$default_values["active"]   = $entry->active;
                     ++$x;
                 }
             }

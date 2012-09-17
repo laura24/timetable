@@ -3,6 +3,7 @@ $TIMETABLE_HTML_FILE_WWW = $CFG->wwwroot.'/mod/timetable/var/timetable.html';
 $TIMETABLE_HTML_FILE = $CFG->dirroot.'/mod/timetable/var/timetable.html';
 global $TIMETABLE_MODIFIER;
 global $TIMETABLE_COLORS_PURE;
+global $TIMETABLE_STATUS;
 $TIMETABLE_MODIFIER = 8;
 global $TIMETABLE_DAYS,$TIMETABLE_COLORS;
 $TIMETABLE_DAYS = array(
@@ -20,7 +21,7 @@ get_string('yellow', 'timetable'),
 get_string('orange','timetable'),
 get_string('red','timetable'),
 get_string('purple','timetable'),
-get_string('black','timetable'));
+get_string('gray','timetable'));
 
 
 $TIMETABLE_COLORS_PURE = array(
@@ -29,5 +30,10 @@ $TIMETABLE_COLORS_PURE = array(
     'orange',
     'red',
     'purple',
-    'black');
+    'gray');
+	
+$TIMETABLE_STATUS = array(
+	'In progress',
+	'Finished'
+	);
 $TIMETABLE_HTML_FILE = $CFG->dirroot.'/mod/timetable/var/timetable.html';

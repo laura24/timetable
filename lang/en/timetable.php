@@ -24,11 +24,9 @@ $string['yellow'] = 'Yellow (CCNA2 default)';
 $string['orange'] = 'Orange (CCNA3 default)';
 $string['red']    = 'Red (CCNA4 default)';
 $string['purple'] = 'Purple';
-$string['black']  = 'Black';
+$string['gray']  = 'Gray';
 
 $string['notimetable'] = 'There is no timetable to display';
-
-/// Errors ///////////////////////////////////////////////////////////////
 
 $string['instanceerror'] = 'Error: Only one instance allowed per course.';
 $string['noentriesactive'] = 'Error. None of the records enabled, uncheck at least one disable.';
@@ -48,7 +46,7 @@ $string['yellow']='Yellow';
 $string['orange']='Orange';
 $string['red']='Red';
 $string['purple']='Purple';
-$string['black']='Black';
+$string['gray']='Gray';
 
 $string['opt']='8:00';
 $string['noua']='9:00';
@@ -65,8 +63,8 @@ $string['nouasprezece']='19:00';
 $string['douazeci']='20:00';
 $string['douazeci_si_unu']='21:00';
 $string['color']='Choose color';
-
-
+$string['pluginname']='Timetable';
+$string['active']='Active';
 
 
 
