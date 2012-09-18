@@ -49,7 +49,8 @@ function timetable_update_instance($timetable) {
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
 
-	
+	if( check_valid($timetable)){
+
     $DB->delete_records('timetable_base', array('timetable'=>$module_id ));
 	
     $timetable->id = $module_id/*->id*/;
@@ -57,10 +58,10 @@ function timetable_update_instance($timetable) {
 	$var =  $timetable->id;
 	
 
-    timetable_insert_fields($timetable);
+    timetable_insert_fields($timetable);}
 
     // don't wait for cron
-  //  timetable_cron();
+    // timetable_cron();
     
     // force the cast because PHP thinks the function is returning
     // a string
@@ -81,7 +82,7 @@ function timetable_delete_instance($id) {
 
 
   //  timetable_cron();
- //   timetable_cron();
+  //   timetable_cron();
 
     
     return true;
@@ -123,8 +124,8 @@ function timetable_cron() {
      * Updates the cached HTML timetable
      * @return  nothing
      */
-    $current_year = date('Y', time()+3600*356*24 ); 
-    echo $current_year;
+    $current_year = date('Y', time() ); 
+
     define("AUTUMN_SESSION", $current_year."-09-17");
     define("SPRING_SESSION", $current_year."-06-15");
     define("SUMMER_SESSION", $current_year."-08-15");
@@ -134,20 +135,20 @@ function timetable_cron() {
     $aux3 = strtotime(SUMMER_SESSION );
 
 
-    /*if( (time() > $aux1 && time() < ($aux1+24*3600)) 
+    if( (time() > $aux1 && time() < ($aux1+24*3600)) 
         || (time() > $aux2 && time() < ($aux2+24*3600)) 
             || (time() > $aux3 && time() < ($aux3+24*3600)) )
-    {
-
-            print "we are here";
-            $rec = $DB->get_records('timetable_base');
-            foreach ($rec as $r) 
             {
-            timetable_update_active($r);
-            }
+
+             print "we are here";
+             $rec = $DB->get_records('timetable_base');
+             foreach ($rec as $r) 
+             {
+             timetable_update_active($r);
+             }
 
 
-    }*/
+         }
     
 }
 
@@ -161,6 +162,11 @@ function timetable_build_course_url($course) {
 
 
 function timetable_update_active($record){
+
+    /**
+     * Updates the field named "active"
+     * @return  $record_id;
+     */
 
     global $DB;
 

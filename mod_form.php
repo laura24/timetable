@@ -8,6 +8,8 @@ class mod_timetable_mod_form extends moodleform_mod {
         global $CFG, $TIMETABLE_DAYS, $COURSE ,$TIMETABLE_COLORS;
 
 
+
+
         $mform =& $this->_form;
         $mform->addElement('header', 'timetabledata', get_string('timetablehdr','timetable'));
 
