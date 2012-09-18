@@ -57,12 +57,12 @@ function timetable_insert_fields($timetable) {
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
 		$tt_data->active   = $timetable->active;
-<<<<<<< HEAD
+
         $DB->insert_record('timetable_base', $tt_data);
      }
-=======
+
 		$DB->insert_record('timetable_base', $tt_data);
->>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
+
     }
 
 }
@@ -79,11 +79,17 @@ function timetable_find($room, $hour, $day) {
      * @param day   course day (as a number, where 0 is Monday)
      * @return      record object if it exists, false otherwise
      */
-    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day))) {
-        return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day));
-    } else {
-        return false;
+    if ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day))) 
+    {
+        $rec = $DB->get_records('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day));
+        
+        foreach ($rec as $r ) {
+        
+            if($r->active == 0)
+                         return $r;
+        }
     }
+    return false;
 }
 
 function timetable_find_id($room, $hour, $day, $TIMETABLE_ID)
@@ -91,9 +97,10 @@ function timetable_find_id($room, $hour, $day, $TIMETABLE_ID)
     global $DB;
     foreach ($TIMETABLE_ID as $key ) 
     {
-    if  ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day, 'id'=>$key))) 
+
+    if  ($DB->record_exists('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day, 'timetable'=>$key))) 
          
-        return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day, 'id'=>$key));
+        return $DB->get_record('timetable_base', array('hour'=>$hour, 'classroom'=>$room,'day'=>$day, 'timetable'=>$key));
     }
     return false;
 
@@ -105,7 +112,7 @@ function timetable_display_passed_timetable( $TIMETABLE_ID ){
     $contents = "<link type='text/css' rel='stylesheet' href='$CFG->wwwroot/mod/timetable/timetable.css'/>";
     $title = $DB->get_record('resource',array('name'=>'Timetable'));
     
-    $rooms = timetable_get_rooms();
+    $rooms = timetable_get_rooms_for_history($TIMETABLE_ID);
     if ($rooms!=NULL){
         
         $roomscount = count($rooms);
@@ -236,7 +243,7 @@ function timetable_display_passed_timetable( $TIMETABLE_ID ){
 } 
 
 
-function check_valid($record){
+/*function check_valid($record){
 
     global $DB;
     $ok=1; 
@@ -261,7 +268,7 @@ function check_valid($record){
 
         }
         return true;
-    }
+    }*/
 
 function timetable_get_details($rec) {
     global $CFG,$DB;
@@ -365,6 +372,28 @@ function timetable_get_rooms() {
     return array_unique($rooms);
 }
 
+function timetable_get_rooms_for_history($timetable_id) 
+{
+    global $DB;
+    $rooms = array();
+    $ok = 0;
+    foreach ($timetable_id as $key) 
+    {
+        $timetable = $DB->get_records('timetable_base', array('timetable'=>$key));
+
+        if ($timetable!=NULL){
+            foreach ($timetable as $value) 
+            {
+                $rooms[] = $value->classroom;  
+                $ok = 1;        
+            }
+        }
+    }
+    if($ok)
+    return array_unique($rooms);
+    return NULL;
+}
+
 
 function timetable_get_css() {
     $css = new object();
@@ -451,20 +480,13 @@ function timetable_display() {
                 $contents .= "<td class='$browstyle $css->right'>$r</td>";
 				
                 for ($hour = $format->first_hour; $hour <= $format->last_hour; ++$hour) {
-                    if ($rec = timetable_find($r, $hour, $k)) {
-						if(!$rec->active){
+                    if ($rec = timetable_find($r, $hour, $k)) 
+                    {
 							$contents .= "<td colspan='$rec->duration' class='$css->box $css->session ".$TIMETABLE_COLORS_PURE[$rec->color]."'>";
 							$contents .= timetable_format_details($rec);
 							$contents .= '</td>';
 							$hour += $rec->duration - 1;
-						}else {
-							if ($hour == $format->last_hour) {
-								$rborder = $css->right;
-							} else {
-								$rborder = '';
-							}
-                        $contents .= "<td class='$rborder $browstyle'>&nbsp; </td>";
-						}         
+						        
                     } else {
                         if ($hour == $format->last_hour) {
                             $rborder = $css->right;
@@ -555,4 +577,39 @@ function timetable_print() {
         return true;
     }
 	
+}
+
+
+function our_function($class_id){
+
+    global $USER;
+    global $DB;
+    global $IDS;
+
+    $db_for_categories = $DB->get_records('course_categories');
+    $db_for_courses = $DB->get_records('course');
+
+    /* Find selected courses using hierarchical tree*/ 
+    foreach($db_for_categories as $category)
+    {   
+        if( $category->parent == $class_id)
+        {
+            //echo $category->id;
+            //echo "</br>";
+            our_function($category->id);
+        }       
+    }   
+    //-----------------------------------------------------------------------
+    foreach($db_for_courses as $class)
+    {   
+        if( $class->category == $class_id)
+        {
+            
+            $IDS[] = $class->id;
+
+
+        //  echo '<h6>' . $class->shortname . '</h6> <br>';//Show courses
+        }
+    }
+    //---------------------------------------------------------------------
 }

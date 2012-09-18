@@ -116,4 +116,33 @@ class mod_timetable_mod_form extends moodleform_mod {
         return $errors;
     }
 }
+
+
+class smth extends moodleform{
+    
+    function definition() {
+
+        global $COURSE;
+        global $DB;
+        $mform =& $this->_form;
+        $groups = $DB->get_records('course_categories',null,'path ASC');
+        /// Build groups and subgroups hierarchy for select
+        foreach($groups as $group) 
+        {
+            if($group->parent == 0) 
+            {
+                $hierarchy[$group->id] = $group->name;
+            }
+            
+        }
+        asort($hierarchy);
+
+        $mform->addElement('select', 'class', "selectie" , $hierarchy);
+        $mform->addRule('class', null, 'required', null, 'client');
+        $mform->setDefault('class',$this->_customdata['class']);
+        $this->add_action_buttons();
+    }
+
+
+}
 ?>

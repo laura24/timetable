@@ -65,7 +65,7 @@ $string['douazeci_si_unu']='21:00';
 $string['color']='Choose color';
 $string['pluginname']='Timetable';
 $string['active']='Active';
-
+$string['timetable_history']='Timetable History';
 
 
 

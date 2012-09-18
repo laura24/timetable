@@ -31,7 +31,7 @@ function timetable_add_instance($timetable) {
 		timetable_insert_fields($timetable);
 		return $timetable->id;
 	}else {
-		echo "Eroare: nu puteti suprapune cursurile, clasele nu se pot termina mai tarziu de ora 22";
+		echo "Eroare: Verificati suprapunerea cursurilor. Clasele nu se pot termina mai tarziu de ora 22";
 		return NULL;
 	}
 
@@ -45,10 +45,11 @@ function check_valid($timetable) {
 		$hour0 = $timetable->sess_hour_0+8;
 		$hour_end0 = $hour0 + $timetable->sess_len_0;
 		foreach ($rec as $r) {
-			if($r->classroom == $timetable->classroom) {
-				if(!($r->hour >= $hour_end0 || $r->hour_end <= $hour0))
-					$ok = 0;
-			}
+			if($r->active == 0)
+				if($r->classroom == $timetable->classroom) {
+					if(!($r->hour >= $hour_end0 || $r->hour_end <= $hour0))
+						$ok = 0;
+				}
 		}
 		if($hour_end0 > 22)
 			$ok = 0;
@@ -59,10 +60,11 @@ function check_valid($timetable) {
 		$hour1 = $timetable->sess_hour_1+8;
 		$hour_end1 = $hour1 + $timetable->sess_len_1;
 		foreach ($rec as $r) {
-			if($r->classroom == $timetable->classroom) {
-				if(!($r->hour >= $hour_end1 || $r->hour_end <= $hour1))
-					$ok = 0;
-			}
+			if($r->active == 0)
+				if($r->classroom == $timetable->classroom) {
+					if(!($r->hour >= $hour_end1 || $r->hour_end <= $hour1))
+						$ok = 0;
+				}
 		}
 		if( $hour_end1 > 22)
 			$ok = 0;
@@ -73,10 +75,11 @@ function check_valid($timetable) {
 		$hour2 = $timetable->sess_hour_2+8;
 		$hour_end2 = $hour2 + $timetable->sess_len_2;
 		foreach ($rec as $r) {
-			if($r->classroom == $timetable->classroom) {
-				if(!($r->hour >= $hour_end2 || $r->hour_end <= $hour2))
-					$ok = 0;
-			}
+			if($r->active == 0)
+				if($r->classroom == $timetable->classroom) {
+					if(!($r->hour >= $hour_end2 || $r->hour_end <= $hour2))
+						$ok = 0;
+				}
 		}
 		if( $hour_end2 > 22)
 			$ok = 0;
@@ -128,26 +131,8 @@ function timetable_update_instance($timetable) {
 	
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
-<<<<<<< HEAD
-
-	if( check_valid($timetable)){
-
-    $DB->delete_records('timetable_base', array('timetable'=>$module_id ));
-	
-    $timetable->id = $module_id/*->id*/;
-	
-	$var =  $timetable->id;
-	
-
-    timetable_insert_fields($timetable);}
-
-    // don't wait for cron
-    // timetable_cron();
-    
-    // force the cast because PHP thinks the function is returning
-    // a string
-=======
 	$aux_data = $DB->get_records('timetable_base', array('timetable'=>$module_id ));
+
 	$DB->delete_records('timetable_base', array('timetable'=>$module_id ));
 	
 	$ok = check_valid($timetable);
@@ -157,7 +142,7 @@ function timetable_update_instance($timetable) {
 		$var =  $timetable->id;
 
 		timetable_insert_fields($timetable);
->>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
+
 	
 		return (integer)$course_id;
 	}else {
@@ -225,48 +210,30 @@ function timetable_cron() {
      * Updates the cached HTML timetable
      * @return  nothing
      */
-<<<<<<< HEAD
-    $current_year = date('Y', time() ); 
-
-=======
 
     $current_year = date('Y', time() ); 
-    echo $current_year;
->>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
+
+    //automatically set timetable inactive on these dates;
+    
     define("AUTUMN_SESSION", $current_year."-09-17");
     define("SPRING_SESSION", $current_year."-06-15");
     define("SUMMER_SESSION", $current_year."-08-15");
     $aux1 = strtotime(AUTUMN_SESSION );
     $aux2 = strtotime(SPRING_SESSION );
-
     $aux3 = strtotime(SUMMER_SESSION );
 
 
     if( (time() > $aux1 && time() < ($aux1+24*3600)) 
         || (time() > $aux2 && time() < ($aux2+24*3600)) 
             || (time() > $aux3 && time() < ($aux3+24*3600)) )
-<<<<<<< HEAD
-=======
     {
             $rec = $DB->get_records('timetable_base');
-            foreach ($rec as $r) 
->>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
-            {
-
-             print "we are here";
-             $rec = $DB->get_records('timetable_base');
              foreach ($rec as $r) 
              {
              timetable_update_active($r);
              }
-
-
-<<<<<<< HEAD
-         }
-    
-=======
     }
->>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
+
 }
 
 
