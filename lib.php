@@ -20,19 +20,99 @@ function timetable_add_instance($timetable) {
     global $TIMETABLE_MODIFIER,$DB;
 
     $tt = new object();   // default entry
+	
+	$ok = check_valid($timetable);
+	if($ok) {
+		$tt->name = get_string('modulename', 'timetable');
+		$tt->course = $timetable->course;
+		$tt->timecreated = time();
+		$timetable->id = $DB->insert_record("timetable", $tt);
+		
+		timetable_insert_fields($timetable);
+		return $timetable->id;
+	}else {
+		echo "Eroare: nu puteti suprapune cursurile, clasele nu se pot termina mai tarziu de ora 22";
+		return NULL;
+	}
 
-    $tt->name = get_string('modulename', 'timetable');
-    $tt->course = $timetable->course;
-	$tt->timecreated = time();
-    $timetable->id = $DB->insert_record("timetable", $tt);
-
-    timetable_insert_fields($timetable);
-    
-  //  timetable_cron();
-
-    return $timetable->id; // return id
 }
 
+function check_valid($timetable) {
+	global $DB;
+	$ok = 1;
+	if(!isset($timetable->sess_dis_0)) {
+		$rec = $DB->get_records('timetable_base',array('day'=>$timetable->sess_day_0));
+		$hour0 = $timetable->sess_hour_0+8;
+		$hour_end0 = $hour0 + $timetable->sess_len_0;
+		foreach ($rec as $r) {
+			if($r->classroom == $timetable->classroom) {
+				if(!($r->hour >= $hour_end0 || $r->hour_end <= $hour0))
+					$ok = 0;
+			}
+		}
+		if($hour_end0 > 22)
+			$ok = 0;
+	}
+	
+	if(!isset($timetable->sess_dis_1)) {
+		$rec = $DB->get_records('timetable_base',array('day'=>$timetable->sess_day_1));
+		$hour1 = $timetable->sess_hour_1+8;
+		$hour_end1 = $hour1 + $timetable->sess_len_1;
+		foreach ($rec as $r) {
+			if($r->classroom == $timetable->classroom) {
+				if(!($r->hour >= $hour_end1 || $r->hour_end <= $hour1))
+					$ok = 0;
+			}
+		}
+		if( $hour_end1 > 22)
+			$ok = 0;
+	}
+	
+	if(!isset($timetable->sess_dis_2)) {
+		$rec = $DB->get_records('timetable_base',array('day'=>$timetable->sess_day_2));
+		$hour2 = $timetable->sess_hour_2+8;
+		$hour_end2 = $hour2 + $timetable->sess_len_2;
+		foreach ($rec as $r) {
+			if($r->classroom == $timetable->classroom) {
+				if(!($r->hour >= $hour_end2 || $r->hour_end <= $hour2))
+					$ok = 0;
+			}
+		}
+		if( $hour_end2 > 22)
+			$ok = 0;
+	}
+	
+	if(!isset($timetable->sess_dis_0)) {
+		if(!isset($timetable->sess_dis_1)) {
+			if($timetable->sess_day_0 == $timetable->sess_day_1) {
+				if(!($hour0 >= $hour_end1 || $hour_end0 <= $hour1)) {
+					$ok = 0;
+				}
+			}
+		}
+		
+		if(!isset($timetable->sess_dis_2)) {
+			if($timetable->sess_day_0 == $timetable->sess_day_2) {
+				if(!($hour0 >= $hour_end2 || $hour_end0 <= $hour2)) {
+					$ok = 0;
+				}
+			}
+		}
+	}
+	
+	if(!isset($timetable->sess_dis_1)) {
+		if(!isset($timetable->sess_dis_2)) {
+			if($timetable->sess_day_1 == $timetable->sess_day_2) {
+				if(!($hour1 >= $hour_end2 || $hour_end1 <= $hour2)) {
+					$ok = 0;
+				}
+			}
+		}
+	}
+			
+	
+	return $ok;
+}
 
 
 
@@ -45,9 +125,10 @@ function timetable_update_instance($timetable) {
      * @return id of the containing course
      */
     // delete the old instance and then just add a new instance
-    global $DB;
+	
 	$course_id = $timetable->course;
     $module_id = $DB->get_record('timetable', array('course'=>$course_id))->id;
+<<<<<<< HEAD
 
 	if( check_valid($timetable)){
 
@@ -65,9 +146,29 @@ function timetable_update_instance($timetable) {
     
     // force the cast because PHP thinks the function is returning
     // a string
+=======
+	$aux_data = $DB->get_records('timetable_base', array('timetable'=>$module_id ));
+	$DB->delete_records('timetable_base', array('timetable'=>$module_id ));
 	
-    return (integer)$course_id;
+	$ok = check_valid($timetable);
+	if($ok) {
+		$timetable->id = $module_id/*->id*/;
+		
+		$var =  $timetable->id;
+
+		timetable_insert_fields($timetable);
+>>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
+	
+		return (integer)$course_id;
+	}else {
+		foreach($aux_data as $data) {
+			$DB->insert_record('timetable_base',$data);
+		}
+		echo "Eroare. Verificati daca : ati suprapus cursurile, clasele se termina mai tarziu de ora 22, nu ati facut nici o modificare asupra orarului.";
+		return NULL;
+	}
 }
+
 
 
 function timetable_delete_instance($id) {
@@ -124,8 +225,14 @@ function timetable_cron() {
      * Updates the cached HTML timetable
      * @return  nothing
      */
+<<<<<<< HEAD
     $current_year = date('Y', time() ); 
 
+=======
+
+    $current_year = date('Y', time() ); 
+    echo $current_year;
+>>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
     define("AUTUMN_SESSION", $current_year."-09-17");
     define("SPRING_SESSION", $current_year."-06-15");
     define("SUMMER_SESSION", $current_year."-08-15");
@@ -138,6 +245,12 @@ function timetable_cron() {
     if( (time() > $aux1 && time() < ($aux1+24*3600)) 
         || (time() > $aux2 && time() < ($aux2+24*3600)) 
             || (time() > $aux3 && time() < ($aux3+24*3600)) )
+<<<<<<< HEAD
+=======
+    {
+            $rec = $DB->get_records('timetable_base');
+            foreach ($rec as $r) 
+>>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
             {
 
              print "we are here";
@@ -148,8 +261,12 @@ function timetable_cron() {
              }
 
 
+<<<<<<< HEAD
          }
     
+=======
+    }
+>>>>>>> be8f679d73ded515f4281698864226cf57ebea5e
 }
 
 
