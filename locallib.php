@@ -25,7 +25,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
 		$tt_data->active   = $timetable->active;
-        $DB->insert_record('timetable_base', $tt_data);
+		$DB->insert_record('timetable_base', $tt_data);
     }
 
     if (!isset($timetable->sess_dis_1)) { // is enabled
@@ -38,7 +38,7 @@ function timetable_insert_fields($timetable) {
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
 		$tt_data->active   = $timetable->active;
-        $DB->insert_record('timetable_base', $tt_data);
+		$DB->insert_record('timetable_base', $tt_data);
     }
 
     if (!isset($timetable->sess_dis_2)) { // is enabled
@@ -51,9 +51,11 @@ function timetable_insert_fields($timetable) {
         $tt_data->timetable = $timetable->id;
         $tt_data->color     = $timetable->color;
 		$tt_data->active   = $timetable->active;
-        $DB->insert_record('timetable_base', $tt_data);
+		$DB->insert_record('timetable_base', $tt_data);
     }
 }
+
+
 
 function timetable_find($room, $hour, $day) {
 	global $DB;
@@ -163,21 +165,15 @@ function timetable_name_strip($fullname, $super = true) {
 function timetable_get_rooms() {
 	global $DB;
     $timetable = $DB->get_records('timetable_base');
-    $rooms_inv = NULL;
+	$rooms = array();
     if ($timetable!=NULL){
         foreach ($timetable as $value) {
-            $rooms_inv[$value->classroom] = 1;
+			$rooms[] = $value->classroom;          
         }
     }else{
         return NULL;
-    }
-    $rooms = array();
-    if ($rooms_inv!=NULL){
-        foreach ($rooms_inv as $r => $value) {
-            $rooms[] = $r;
-        }
-    }
-    return $rooms;
+    } 
+    return array_unique($rooms);
 }
 
 
@@ -268,16 +264,16 @@ function timetable_display() {
                 for ($hour = $format->first_hour; $hour <= $format->last_hour; ++$hour) {
                     if ($rec = timetable_find($r, $hour, $k)) {
 						if(!$rec->active){
-                        $contents .= "<td colspan='$rec->duration' class='$css->box $css->session ".$TIMETABLE_COLORS_PURE[$rec->color]."'>";
-                        $contents .= timetable_format_details($rec);
-                        $contents .= '</td>';
-                        $hour += $rec->duration - 1;
+							$contents .= "<td colspan='$rec->duration' class='$css->box $css->session ".$TIMETABLE_COLORS_PURE[$rec->color]."'>";
+							$contents .= timetable_format_details($rec);
+							$contents .= '</td>';
+							$hour += $rec->duration - 1;
 						}else {
-                        if ($hour == $format->last_hour) {
-                            $rborder = $css->right;
-                        } else {
-                            $rborder = '';
-                        }
+							if ($hour == $format->last_hour) {
+								$rborder = $css->right;
+							} else {
+								$rborder = '';
+							}
                         $contents .= "<td class='$rborder $browstyle'>&nbsp; </td>";
 						}         
                     } else {

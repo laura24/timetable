@@ -5,13 +5,11 @@ global $MODIFIER,$DB,$OUTPUT;
 
   require_once('../../config.php');
   require_once('lib.php');
-<<<<<<< HEAD
-  echo timetable_display();
-=======
 
->>>>>>> ac5ddc08c773548049eebde2293f0a419a21d86b
+  echo timetable_display();
+
   
-$current_year = date('Y', time()); 
+/*$current_year = date('Y', time()); 
     echo $current_year;
    
     define("AUTUMN_SESSION", $current_year."-09-17");
@@ -36,9 +34,5 @@ $current_year = date('Y', time());
             }
 
 
-    }
-    
-
-
-  echo timetable_display();
+    }*/
 
